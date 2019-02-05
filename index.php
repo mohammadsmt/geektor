@@ -1,3 +1,9 @@
+<?php
+require_once 'backend/db/database.php';
+require_once 'backend/admin/admin.php';
+require_once 'backend/user/post.php';
+
+?>
 <html>
 
 <head>
@@ -287,35 +293,32 @@ function custom_echo($x, $length)
         echo $y;
     }
 }
-$con = mysqli_connect('localhost','root','','geektor');
-$con->set_charset("utf8");
-$sql = "select * from tbl_post order by id desc";
-$result = $con->query($sql);
-while($row = $result->fetch_assoc()) {
-    $sql2 = "select * from tbl_admin where id = ".$row["admin_id"];
-    $result2 = $con->query($sql2);
-    $row2 = $result2->fetch_assoc();
+
+$db = new database();
+$post_ids = $db->get_all_posts_ids();
+foreach ($post_ids as $id){
+    $post = new post(1,$id);
     ?>
     <div class="card hidden-sm hidden-xs" style="direction:rtl;">
         <div class="row">
             <div class="col-lg-9 col-md-9 hidden-sm hidden-xs">
-                <div class="nevisande"><i class="fa fa-user" aria-hidden="true"></i><?php echo $row2["name"]; ?> |
+                <div class="nevisande"><i class="fa fa-user" aria-hidden="true"></i><?php echo $post->getAdmin()->getName(); ?> |
                     <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;<time datetime="21-8-1396" class="datetime">2
                         ابان 1396
                     </time>
                 </div>
-                <h3><a href="https://geektor.ir/single?n=<?php echo $row["id"] ?>"><?php echo $row["title"]; ?></a></h3>
+                <h3><a href="https://geektor.ir/single?n=<?php echo $post->getId(); ?>"><?php echo $post->getTitle(); ?></a></h3>
                 <p>
                    <?php
-                   custom_echo($row["content"],200);
+                   custom_echo($post->getContent(),200);
                    ?>
                 </p>
-                <a href="https://geektor.ir/single?n=<?php echo $row["id"] ?>">
+                <a href="https://geektor.ir/single?n=<?php echo $post->getId(); ?>">
                     <div class="myButton"> ادامه مطلب</div>
                 </a>
             </div>
             <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
-                <img src="<?php echo $row["img_link"]; ?>" class=" img-responsive img-rounded indeximg">
+                <img src="<?php echo $post->getImgLink(); ?>" class=" img-responsive img-rounded indeximg">
             </div>
         </div>
     </div>

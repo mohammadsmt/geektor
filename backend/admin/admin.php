@@ -31,6 +31,12 @@ class admin
             $this->password = $pass;
         }elseif($type == "2"){
             $this->id = $id;
+            $db = new database();
+            $result1 = $db->get_admin_data($id);
+            $this->name = $result1["name"];
+            $this->email = $result1["email"];
+            $this->avatar = $result1["avatar"];
+            $this->username = $result1["username"];
         }
     }
 
@@ -39,7 +45,7 @@ class admin
         $db = new database();
         $num_row = $db->get_query_row_num($sql);
         if($num_row == 1){
-            $myresult = $db->get_resutl($sql);
+            $myresult = $db->get_result($sql);
             while($row = $myresult->fetch_assoc()){
                 $this->id = $row["id"];
                 $this->name = $row["name"];
@@ -54,4 +60,53 @@ class admin
             return "0";
         }
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoneNumber()
+    {
+        return $this->phone_number;
+    }
+
 }
