@@ -2,7 +2,7 @@
 require_once 'backend/db/database.php';
 require_once 'backend/admin/admin.php';
 require_once 'backend/user/post.php';
-
+$db = new database();
 ?>
 <html>
 
@@ -66,50 +66,7 @@ require_once 'backend/user/post.php';
             <div class="col-lg-10 col-md-10 col-xs-12 col-sm-10 top_site">
                 <div class="row">
                     <!--navigation menu-->
-                    <div id="topmenu" style="z-index: 2; position: relative">
-                        <nav>
-                            <div class="col-lg-12 col-md-12 col-sm-12 hidden-xs">
-                                <ul>
-                                    <li><a href="#">صفحه نخست</a></li>
-                                    <li><a href="#">ثبت نام دوره ی آموزشی</a>
-                                        <ul Class="DropDownOne">
-                                            <li><a href="#">وردپرس</a></li>
-                                            <li><a href="#">جوملا</a></li>
-                                            <li><a href="#">متفرقه</a>
-                                                <ul>
-                                                    <li><a href="#">HTML</a></li>
-                                                    <li><a href="#">CSS</a>
-                                                        <ul>
-                                                            <li><a href="#">test1</a>
-                                                                <ul>
-                                                                    <li><a href="#">test2</a></li>
-                                                                    <li><a href="#">test3</a></li>
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">دانلود نرم افزار</a></li>
-                                    <li><a href="#">آموزش</a>
-                                        <ul>
-                                            <li><a href="#">وردپرس</a></li>
-                                            <li><a href="#ا">جوملا</a></li>
-                                            <li><a href="#">متفرقه</a>
-                                                <ul>
-                                                    <li><a href="#">HTML</a></li>
-                                                    <li><a href="#">CSS</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">ارتباط با ما</a></li>
-                                </ul>
-                            </div>
-                        </nav>
-                    </div>
+                    <?php include 'layout/menu.php'; ?>
                 </div>
                 <div class="row" style="background-color:white">
                     <div style="float: right; height: 128px; width: 128px; margin-right: 50px;">
@@ -168,58 +125,9 @@ require_once 'backend/user/post.php';
                             <h4 style="text-align:right; margin-top: 20px;">تازه ترین ها</h4>
                             <hr class="bigHr">
 -->
+                            <?php include 'layout/most_visited.php'; ?>
 
-                            <div class="sidebar_news card">
-                                <p class="title">تازه ها</p>
-                                <div class="items ">
-                                    <a class="main-link" href="#">
-                                        <div class="item row">
-                                            <div class="caption col-lg-8">
-                                                <p>لورم ایپسوم متن ساختگی</p>
-                                                <p>سید محمد تقی نژاد</p>
-                                            </div>
-                                            <img class="col-lg-4 news_img_shahab" src="images/1.jpg">
-                                        </div>
-                                    </a>
-                                    <a class="main-link" href="#">
-                                        <div class="item row">
-                                            <div class="caption col-lg-8">
-                                                <p>لورم ایپسوم متن ساختگی</p>
-                                                <p>شهاب اسکندری</p>
-                                            </div>
-                                            <img class="col-lg-4 news_img_shahab" src="images/1.jpg">
-                                        </div>
-                                    </a>
-                                    <a class="main-link" href="#">
-                                        <div class="item row">
-                                            <div class="caption col-lg-8">
-                                                <p>لورم ایپسوم متن ساختگی</p>
-                                                <p>مهدیه اکبری</p>
-                                            </div>
-                                            <img class="col-lg-4 news_img_shahab" src="images/1.jpg">
-                                        </div>
-                                    </a>
-                                    <a class="main-link" href="#">
-                                        <div class="item row">
-                                            <div class="caption col-lg-8">
-                                                <p>لورم ایپسوم متن ساختگی</p>
-                                                <p>بهاره داودی</p>
-                                            </div>
-                                            <img class="col-lg-4 news_img_shahab" src="images/1.jpg">
-                                        </div>
-                                    </a>
-                                    <a class="main-link" href="#">
-                                        <div class="item row">
-                                            <div class="caption col-lg-8">
-                                                <p>لورم ایپسوم متن ساختگی</p>
-                                                <p>سید محمد تقی نژاد</p>
-                                            </div>
-                                            <img class="col-lg-4 news_img_shahab" src="images/1.jpg">
-                                        </div>
-                                    </a>
-                                </div>
-                                <a href="#" class="show_more">
-                                    <<همه اخبار</a> </div> </div> <div class="col-lg-9 col-md-10 col-sm-12 col-xs-12" style="margin-top: 20px; ">
+                        </div> <div class="col-lg-9 col-md-10 col-sm-12 col-xs-12" style="margin-top: 20px; ">
                                         <!--Strating Slide Show-->
                                         <div id="myCarousel" class="carousel slide" data-ride="carousel">
                                             <!-- Indicators -->
@@ -293,9 +201,11 @@ function custom_echo($x, $length)
         echo $y;
     }
 }
-
-$db = new database();
-$post_ids = $db->get_all_posts_ids();
+$page = 1;
+if(isset($_GET['page'])){
+    $page = mysqli_real_escape_string($db->con,$_GET['page']);
+}
+$post_ids = $db->get_all_posts_ids($page);
 foreach ($post_ids as $id){
     $post = new post(1,$id);
     ?>
@@ -307,13 +217,13 @@ foreach ($post_ids as $id){
                         ابان 1396
                     </time>
                 </div>
-                <h3><a href="https://geektor.ir/single?n=<?php echo $post->getId(); ?>"><?php echo $post->getTitle(); ?></a></h3>
+                <h3><a href="single.php?n=<?php echo $post->getId(); ?>"><?php echo $post->getTitle(); ?></a></h3>
                 <p>
                    <?php
                    custom_echo($post->getContent(),200);
                    ?>
                 </p>
-                <a href="https://geektor.ir/single?n=<?php echo $post->getId(); ?>">
+                <a href="single.php?n=<?php echo $post->getId(); ?>">
                     <div class="myButton"> ادامه مطلب</div>
                 </a>
             </div>
@@ -455,14 +365,13 @@ foreach ($post_ids as $id){
 
                                             <div class="center col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="pagination">
-                                                    <a href="#">&laquo;</a>
-                                                    <a href="#">1</a>
-                                                    <a href="#" class="active">2</a>
-                                                    <a href="#">3</a>
-                                                    <a href="#">4</a>
-                                                    <a href="#">5</a>
-                                                    <a href="#">6</a>
-                                                    <a href="#">&raquo;</a>
+                                                    <?php echo $db->get_paginator_links($page,"active"); ?>
+<!--                                                    <a href="#">1</a>-->
+<!--                                                    <a href="#">2</a>-->
+<!--                                                    <a href="#" class="active">3</a>-->
+<!--                                                    <a href="#">4</a>-->
+<!--                                                    <a href="#">5</a>-->
+<!--                                                    <a href="#"></a>-->
                                                 </div>
                                             </div>
 

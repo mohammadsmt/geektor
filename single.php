@@ -1,4 +1,18 @@
-<html>
+<?php
+require_once 'backend/db/database.php';
+require_once 'backend/admin/admin.php';
+require_once 'backend/user/post.php';
+$db = null;
+$post_id = null;
+if(!isset($_GET["n"])){
+    header('location:index.php');
+}else{
+    $db = new database();
+    $post_id = $db->con->real_escape_string($_GET["n"]);
+}
+$post = new post(1,$post_id);
+?>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -27,7 +41,7 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-    <title>Geektor</title>
+    <title><?php echo $post->getTitle(); ?></title>
     <style>
         .info-bar-text {
             color: white;
@@ -62,50 +76,8 @@
             <div class="col-lg-10 col-md-10 col-xs-12 col-sm-10 top_site">
                 <div class="row">
                     <!--navigation menu-->
-                    <div id="topmenu" style="z-index: 2; position: relative">
-                        <nav>
-                            <div class="col-lg-12 col-md-12 col-sm-12 hidden-xs">
-                                <ul>
-                                    <li><a href="#">صفحه نخست</a></li>
-                                    <li><a href="#">ثبت نام دوره ی آموزشی</a>
-                                        <ul Class="DropDownOne">
-                                            <li><a href="#">وردپرس</a></li>
-                                            <li><a href="#">جوملا</a></li>
-                                            <li><a href="#">متفرقه</a>
-                                                <ul>
-                                                    <li><a href="#">HTML</a></li>
-                                                    <li><a href="#">CSS</a>
-                                                        <ul>
-                                                            <li><a href="#">test1</a>
-                                                                <ul>
-                                                                    <li><a href="#">test2</a></li>
-                                                                    <li><a href="#">test3</a></li>
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">دانلود نرم افزار</a></li>
-                                    <li><a href="#">آموزش</a>
-                                        <ul>
-                                            <li><a href="#">وردپرس</a></li>
-                                            <li><a href="#ا">جوملا</a></li>
-                                            <li><a href="#">متفرقه</a>
-                                                <ul>
-                                                    <li><a href="#">HTML</a></li>
-                                                    <li><a href="#">CSS</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">ارتباط با ما</a></li>
-                                </ul>
-                            </div>
-                        </nav>
-                    </div>
+                    <!--navigation menu-->
+                    <?php include 'layout/menu.php'; ?>
                 </div>
 
                 <div class="row" style="background-color:white">
@@ -129,8 +101,8 @@
                             <!-- Start The most important news -->
                             <div class="nevisande_box">
                                 <h4 class="nevisandehtitle">نویسنده </h4>
-                                <img src="images/5.jpg" alt="سید محمد تقی نژاد" class="nevisande_img">
-                                <h4 class="nevisande_etelaati">سید محمد تقی نژاد</h4>
+                                <img src="<?php echo $post->getAdmin()->getAvatar(); ?>" alt="سید محمد تقی نژاد" class="nevisande_img">
+                                <h4 class="nevisande_etelaati"><?php echo $post->getAdmin()->getName(); ?></h4>
                                 <p class="nevisande_etelaati">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
                             </div>
 
@@ -138,69 +110,25 @@
 
                             <br><br><br>
                             <!-- end The most important news -->
-                            <div class="sidebar_news card">
-                                <p class="title">تازه ها</p>
-                                <div class="items ">
-                                    <a class="main-link" href="#">
-                                        <div class="item row">
-                                            <div class="caption col-lg-8">
-                                                <p>لورم ایپسوم متن ساختگی</p>
-                                                <p>سید محمد تقی نژاد</p>
-                                            </div>
-                                            <img class="col-lg-4 news_img_shahab" src="images/1.jpg">
-                                        </div>
-                                    </a>
-                                    <a class="main-link" href="#">
-                                        <div class="item row">
-                                            <div class="caption col-lg-8">
-                                                <p>لورم ایپسوم متن ساختگی</p>
-                                                <p>شهاب اسکندری</p>
-                                            </div>
-                                            <img class="col-lg-4 news_img_shahab" src="images/1.jpg">
-                                        </div>
-                                    </a>
-                                    <a class="main-link" href="#">
-                                        <div class="item row">
-                                            <div class="caption col-lg-8">
-                                                <p>لورم ایپسوم متن ساختگی</p>
-                                                <p>مهدیه اکبری</p>
-                                            </div>
-                                            <img class="col-lg-4 news_img_shahab" src="images/1.jpg">
-                                        </div>
-                                    </a>
-                                    <a class="main-link" href="#">
-                                        <div class="item row">
-                                            <div class="caption col-lg-8">
-                                                <p>لورم ایپسوم متن ساختگی</p>
-                                                <p>بهاره داودی</p>
-                                            </div>
-                                            <img class="col-lg-4 news_img_shahab" src="images/1.jpg">
-                                        </div>
-                                    </a>
-                                    <a class="main-link" href="#">
-                                        <div class="item row">
-                                            <div class="caption col-lg-8">
-                                                <p>لورم ایپسوم متن ساختگی</p>
-                                                <p>سید محمد تقی نژاد</p>
-                                            </div>
-                                            <img class="col-lg-4 news_img_shahab" src="images/1.jpg">
-                                        </div>
-                                    </a>
-                                </div>
-                                <a href="#" class="show_more">
-                                    <<همه اخبار</a> </div> </div> <div class="col-lg-9 col-md-10 col-xs-12 col-sm-12">
+                            <?php
+                            //add most visited
+                            include 'layout/most_visited.php';
+                            ?>
+                            </div> <div class="col-lg-9 col-md-10 col-xs-12 col-sm-12">
                                         <div class="mycard mycard-2">
-                                            <h3 class="stitr">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم</h3>
+                                            <h3 class="stitr"><?php echo $post->getTitle(); ?></h3>
                                             <br>
                                             <br>
-                                            <img src="images/1.jpg" class="imgsing img-responsive img-rounded">
+                                            <img src="<?php echo $post->getImgLink(); ?>" class="imgsing img-responsive img-rounded">
                                             <br>
                                             <br>
-                                            <div class="nevisande singlenevisandeh" style="direction: rtl;"><i class="fa fa-user" aria-hidden="true"></i>سید محمد تقی نژاد |
-                                                <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;<time datetime="21-8-1396" class="datetime">2 ابان 1396
+                                            <div class="nevisande singlenevisandeh" style="direction: rtl;"><i class="fa fa-user" aria-hidden="true"></i><?php echo $post->getAdmin()->getName(); ?>
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;<time datetime="21-8-1396" class="datetime"><?php echo $post->getCreatedDate(); ?>
                                                 </time>
                                             </div> <br><br>
-                                            <p class="matnsingle1">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.</p>
+                                            <p class="matnsingle1">
+                                                <?php echo $post->getContent(); ?>
+                                            </p>
                                             <!-- start Polls build box-->
                                             <br>
                                             <br>
